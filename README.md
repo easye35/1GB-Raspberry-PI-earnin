@@ -17,11 +17,11 @@ This repo is optimized to stay under **100 MB total usage**.
 ## Install
 
 SSH into your Pi and run:
-...
+```bash
 git clone https://github.com/YOURNAME/1GB-Raspberry-PI-earnin
 cd 1GB-Raspberry-PI-earnin
 sudo bash install.sh
-.../
+```
 
 Then edit the `.sh` files inside each folder to add your:
 
