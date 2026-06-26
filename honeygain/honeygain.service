@@ -1,0 +1,10 @@
+[Unit]
+Description=Honeygain Client
+After=network.target
+
+[Service]
+ExecStart=/opt/honeygain/honeygain.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
