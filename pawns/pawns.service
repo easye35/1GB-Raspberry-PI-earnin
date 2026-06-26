@@ -1,0 +1,10 @@
+[Unit]
+Description=Pawns Client
+After=network.target
+
+[Service]
+ExecStart=/opt/pawns/pawns.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
