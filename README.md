@@ -18,7 +18,7 @@ This repo is optimized to stay under **100 MB total usage**.
 
 SSH into your Pi and run:
 ```bash
-git clone https://github.com/YOURNAME/1GB-Raspberry-PI-earnin
+git clone https://github.com/easye35/1GB-Raspberry-PI-earnin
 cd 1GB-Raspberry-PI-earnin
 sudo bash install.sh
 ```
