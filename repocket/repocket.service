@@ -1,0 +1,10 @@
+[Unit]
+Description=Repocket Client
+After=network.target
+
+[Service]
+ExecStart=/opt/repocket/repocket.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
