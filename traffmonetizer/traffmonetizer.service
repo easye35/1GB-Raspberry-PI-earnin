@@ -1,0 +1,10 @@
+[Unit]
+Description=TraffMonetizer Client
+After=network.target
+
+[Service]
+ExecStart=/opt/traff/traff.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
