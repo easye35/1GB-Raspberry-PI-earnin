@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Pi Dashboard</title>
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo-wrap"><img src="img/logo.svg" alt="Logo" width="48" height="48"/></div>
+    <div class="header-title">
+      <h1>Pi Dashboard</h1>
+      <p>Raspberry Pi &middot; Linux &middot; Windows &middot; Earnings Monitor</p>
+    </div>
+  </div>
+  <div id="alert-bar" class="alert-bar">&#9888; <span id="alert-msg">Cannot reach backend</span></div>
+  <div class="header-right">
+    <div class="status-dot"><span class="dot"></span><span>Live</span></div>
+    <div class="uptime-badge">&#9203; <span id="uptime-val">&#8212;</span></div>
+    <div id="last-updated">Connecting&hellip;</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- System Metrics -->
+  <div>
+    <div class="section-label">System Metrics</div>
+    <div class="metric-grid">
+      <div class="metric-card" style="--accent-color:var(--accent-pi)">
+        <div class="metric-header"><span class="metric-label">CPU Usage</span><span class="metric-icon">&#128293;</span></div>
+        <div><span class="metric-value" id="cpu-value">&#8212;</span><span class="metric-unit">%</span></div>
+        <div class="metric-sub">ARM Cortex-A72 &middot; 4 cores</div>
+        <div class="sparkline-wrap"><div class="sparkline" id="cpu-spark"></div></div>
+      </div>
+      <div class="metric-card" style="--accent-color:var(--accent-linux)">
+        <div class="metric-header"><span class="metric-label">Memory</span><span class="metric-icon">&#129504;</span></div>
+        <div><span class="metric-value" id="mem-value">&#8212;</span><span class="metric-unit">%</span></div>
+        <div class="metric-sub">1 GB LPDDR4</div>
+        <div class="sparkline-wrap"><div class="sparkline" id="mem-spark"></div></div>
+      </div>
+      <div class="metric-card" style="--accent-color:var(--accent-win)">
+        <div class="metric-header"><span class="metric-label">Disk Usage</span><span class="metric-icon">&#128190;</span></div>
+        <div><span class="metric-value" id="disk-value">&#8212;</span><span class="metric-unit">%</span></div>
+        <div class="metric-sub">MicroSD / SSD</div>
+        <div class="sparkline-wrap"><div class="sparkline" id="disk-spark"></div></div>
+      </div>
+      <div class="metric-card" style="--accent-color:var(--accent-teal)">
+        <div class="metric-header"><span class="metric-label">Temperature</span><span class="metric-icon">&#127777;</span></div>
+        <div><span class="metric-value" id="temp-value">&#8212;</span><span class="metric-unit">&deg;C</span></div>
+        <div class="metric-sub">CPU thermal sensor</div>
+        <div class="sparkline-wrap"><div class="sparkline" id="temp-spark"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Network -->
+  <div>
+    <div class="section-label">Network I/O</div>
+    <div class="network-card">
+      <div class="network-row">
+        <span class="net-label" style="color:var(--accent-money)">&#8593; TX</span>
+        <span class="net-value" id="net-tx-value" style="color:var(--accent-money)">&#8212;</span>
+        <div class="net-spark"><div class="sparkline" id="net-tx-spark"></div></div>
+      </div>
+      <div class="network-row">
+        <span class="net-label" style="color:var(--accent-teal)">&#8595; RX</span>
+        <span class="net-value" id="net-rx-value" style="color:var(--accent-teal)">&#8212;</span>
+        <div class="net-spark"><div class="sparkline" id="net-rx-spark"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Earnings -->
+  <div>
+    <div class="section-label">Earnings Breakdown</div>
+    <div class="earnings-layout">
+      <div class="earnings-summary">
+        <div class="earnings-total">
+          <div class="earn-big">
+            <div class="label">Daily Est.</div>
+            <div class="amount" id="earn-daily-total">&#8212;</div>
+            <div class="sub">USD/day across all sources</div>
+          </div>
+          <div class="earn-big">
+            <div class="label">All-Time Total</div>
+            <div class="amount" id="earn-total-all" style="color:var(--accent-linux)">&#8212;</div>
+            <div class="sub">cumulative USD equivalent</div>
+          </div>
+        </div>
+        <div class="earnings-breakdown" id="earnings-breakdown"></div>
+      </div>
+      <div class="earnings-donut-wrap">
+        <div class="donut-svg-wrap">
+          <svg id="donut-svg" viewBox="0 0 140 140" width="140" height="140">
+            <circle cx="70" cy="70" r="55" fill="none" stroke="#30363d" stroke-width="18"/>
+          </svg>
+          <div class="donut-center"><span class="dc-val">&#8212;</span><span class="dc-lbl">daily</span></div>
+        </div>
+        <div class="donut-legend" id="donut-legend"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Processes -->
+  <div>
+    <div class="section-label">System Processes</div>
+    <div class="proc-panel">
+      <div class="proc-header">
+        <h3>&#9881;&#65039; Top Processes by CPU</h3>
+        <span class="proc-count" id="proc-count">&#8212;</span>
+      </div>
+      <div class="proc-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Process</th><th>PID</th><th>CPU</th><th>Memory</th>
+            </tr>
+          </thead>
+          <tbody id="proc-tbody">
+            <tr><td colspan="4" style="text-align:center;color:var(--text-dim);padding:24px">Loading&hellip;</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Pi Dashboard &middot; FastAPI + psutil &middot; No Docker &middot; Auto-refresh 5 s &middot; 1 GB Raspberry Pi &middot;
+  <span id="footer-time"></span>
+</footer>
+
+<script src="js/dashboard.js"></script>
+<script>
+  function uc(){var e=document.getElementById('footer-time');if(e)e.textContent=new Date().toLocaleString();}
+  uc(); setInterval(uc, 1000);
+</script>
+</body>
+</html>
